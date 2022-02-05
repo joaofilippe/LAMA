@@ -18,20 +18,32 @@ export default class UsersModel {
         this.role = role;
     }
 
-    getUsersModel(){
+    getUsersModel() {
         const id = this.id;
         const name = this.name;
         const email = this.email;
         const password = this.password;
-        const role = this.role
+        const role = this.role;
 
         const userModel = {
-            id, 
-            name, 
+            id,
+            name,
             email,
             password,
-            role
-        }
+            role,
+        };
+    }
+
+    public static toUserModel(input?: any) {
+        const user: UsersModel = new UsersModel(
+            input.id,
+            input.name,
+            input.email,
+            input.password,
+            input.role
+        );
+
+        return user;
     }
 }
 
@@ -43,6 +55,7 @@ export interface UsersInput {
     role: string;
 }
 export interface UpdateInput {
+    id: string;
     name?: string;
     email?: string;
     password?: string;
