@@ -1,37 +1,45 @@
-import UsersModel, {
-    UsersInput,
-    UpdateInput,
-} from './models/UsersModel';
+import ConcertsModel, {
+    ConcertsCreateInput,
+    ConcertsUpdateInput,
+} from './models/ConcertsModel';
 import BaseDatabase from './BaseDatabase';
 
-export default class UsersDatabase extends BaseDatabase {
-    tableName = 'users';
+export default class ConcertsDatabase extends BaseDatabase {
+    tableName = 'concerts';
 
-    create = async (input: UsersInput) => {
+    create = async (input: ConcertsCreateInput) => {
         try {
-            const { id, name, email, password, role } = input;
+            const { id, week_day, start_time, end_time, band_id } =
+                input;
 
-            const usersModel = new UsersModel(
+            const concertsModel = new ConcertsModel(
                 id,
-                name,
-                email,
-                password,
-                role
+                week_day,
+                start_time,
+                end_time,
+                band_id
             );
 
-            const userModel = usersModel.getUsersModel();
+            const concert = concertsModel.getConcertsModel();
 
-            this.connection(this.tableName).insert(userModel);
+            await this.connection(this.tableName).insert(concert);
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
     };
 
-    update = async (input: UpdateInput) => {
+    update = async (input: ConcertsUpdateInput) => {
         try {
-            const { id, name, email, password, role } = input;
+            const { id, week_day, start_time, end_time, band_id } =
+                input;
 
-            const inputDB = { name, email, password, role };
+            const inputDB = {
+                id,
+                week_day,
+                start_time,
+                end_time,
+                band_id,
+            };
 
             await this.connection(this.tableName)
                 .update(inputDB)
@@ -49,13 +57,13 @@ export default class UsersDatabase extends BaseDatabase {
 
             if (!result) {
                 throw new Error(
-                    'Usuário não encontrado, por favor, verifique os parâmetros enviados.'
+                    'Show não encontrado, por favor, verifique os parâmetros enviados.'
                 );
             }
 
-            const user = UsersModel.toUserModel(result[0]);
+            const concert = ConcertsModel.toConcertsModel(result[0]);
 
-            return user;
+            return concert;
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
@@ -69,13 +77,13 @@ export default class UsersDatabase extends BaseDatabase {
 
             if (!result) {
                 throw new Error(
-                    'Usuário não encontrado, por favor, verifique os parâmetros enviados.'
+                    'Show não encontrado, por favor, verifique os parâmetros enviados.'
                 );
             }
 
-            const user = UsersModel.toUserModel(result[0]);
+            const concert = ConcertsModel.toConcertsModel(result[0]);
 
-            return user;
+            return concert;
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }

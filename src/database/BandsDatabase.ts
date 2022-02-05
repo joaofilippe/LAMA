@@ -1,37 +1,36 @@
-import UsersModel, {
-    UsersInput,
-    UpdateInput,
-} from './models/UsersModel';
+import BandsModel, {
+    BandsCreateInput,
+    BandsUpdateInput,
+} from './models/BandsModel';
 import BaseDatabase from './BaseDatabase';
 
-export default class UsersDatabase extends BaseDatabase {
-    tableName = 'users';
+export default class BandsDatabase extends BaseDatabase {
+    tableName = 'bands';
 
-    create = async (input: UsersInput) => {
+    create = async (input: BandsCreateInput) => {
         try {
-            const { id, name, email, password, role } = input;
+            const { id, name,music_genre, responsible } = input;
 
-            const usersModel = new UsersModel(
+            const bandsModel = new BandsModel(
                 id,
                 name,
-                email,
-                password,
-                role
+                music_genre,
+                responsible
             );
 
-            const userModel = usersModel.getUsersModel();
+            const band = bandsModel.getBandsModel();
 
-            this.connection(this.tableName).insert(userModel);
+            this.connection(this.tableName).insert(bandsModel);
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
     };
 
-    update = async (input: UpdateInput) => {
+    update = async (input: BandsUpdateInput) => {
         try {
-            const { id, name, email, password, role } = input;
+            const { id, name, music_genre, responsible } = input;
 
-            const inputDB = { name, email, password, role };
+            const inputDB = { name, music_genre, responsible };
 
             await this.connection(this.tableName)
                 .update(inputDB)
@@ -49,13 +48,13 @@ export default class UsersDatabase extends BaseDatabase {
 
             if (!result) {
                 throw new Error(
-                    'Usuário não encontrado, por favor, verifique os parâmetros enviados.'
+                    'Banda não encontrada, por favor, verifique os parâmetros enviados.'
                 );
             }
 
-            const user = UsersModel.toUserModel(result[0]);
+            const band = BandsModel.toBandsModel(result[0]);
 
-            return user;
+            return band;
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
@@ -69,13 +68,13 @@ export default class UsersDatabase extends BaseDatabase {
 
             if (!result) {
                 throw new Error(
-                    'Usuário não encontrado, por favor, verifique os parâmetros enviados.'
+                    'Banda não encontrada, por favor, verifique os parâmetros enviados.'
                 );
             }
 
-            const user = UsersModel.toUserModel(result[0]);
+            const band = BandsModel.toBandsModel(result[0]);
 
-            return user;
+            return band;
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
