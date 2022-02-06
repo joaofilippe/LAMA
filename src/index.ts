@@ -1,10 +1,10 @@
 import {app, server} from './app'
-import UsersRouter from './controller/routes/UsersRouter'
-import BandsRouter from './controller/routes/BandsRouter'
-import ConcertsRouter from './controller/routes/ConcertsRouter'
+import bandsRouter from './controller/routes/BandsRouter'
+import concertsRouter from './controller/routes/ConcertsRouter'
+import usersRouter from './controller/routes/UsersRouter';
 
-app.use('/users', UsersRouter)
-app.use('/bands', BandsRouter)
-app.use('/concerts', ConcertsRouter)
+app.use('/users', usersRouter)
+app.use('/bands', bandsRouter)
+app.use('/concerts', concertsRouter)
 
 server
