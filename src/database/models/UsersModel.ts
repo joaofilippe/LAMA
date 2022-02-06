@@ -1,3 +1,5 @@
+import { USERS_ROLE } from "../../entities/Users";
+
 export default class UsersModel {
     private readonly id: string;
     private readonly name: string;
@@ -52,7 +54,7 @@ export interface UsersInput {
     name: string;
     email: string;
     password: string;
-    role: string;
+    role: USERS_ROLE;
 }
 export interface UpdateInput {
     id: string;

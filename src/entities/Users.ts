@@ -30,13 +30,15 @@ export default class Users {
         const password = this.password;
         const role = this.role;
 
-        const userModel = {
+        const user = {
             id,
             name,
             email,
             password,
             role,
         };
+
+        return user
     }
 
     public static toUsers(input?: any) {
@@ -84,13 +86,24 @@ export default class Users {
                 break;
         }
     }
+
+    public static toUsersRole(roleInput: any){
+        switch (roleInput) {
+            case 'ADMIN':
+                return USERS_ROLE.ADMIN
+                break;
+            default:
+                return USERS_ROLE.NORMAL
+                break;
+        }
+    }
 }
 
 export interface UsersInputDTO {
     name: string;
     email: string;
     password: string;
-    role: string;
+    roleInput: string;
 }
 export interface GetByEmailInputDTO {
     email: string;
@@ -111,4 +124,9 @@ export interface UsersUpdateInputDTO {
 export interface DeleteInputDTO {
     id: string;
     token: string;
+}
+
+export interface AuthenticationData{
+    id: string;
+    role: USERS_ROLE
 }

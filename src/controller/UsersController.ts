@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import Authenticator from '../services/Authenticator';
-import HashManager from '../services/HashManager';
+import UsersBusiness from '../business/UsersBusiness';
+
 import UsersDatabase from '../database/UsersDatabase';
 import {
     UsersInputDTO,
@@ -11,24 +11,23 @@ import {
 } from '../entities/Users';
 
 export default class UsersController {
-    authenticator: Authenticator;
-    hashManager: HashManager;
     database: UsersDatabase;
-    constructor() {
-        this.authenticator = new Authenticator();
-        this.hashManager = new HashManager();
+    business: UsersBusiness;    constructor() {
         this.database = new UsersDatabase();
+        this.business = new UsersBusiness()
     }
 
     signup = async (req: Request, res: Response) => {
         try {
-            const { name, email, password, role } = req.body;
+            const { name, email, password, roleInput } = req.body;
             const input: UsersInputDTO = {
                 name,
                 email,
                 password,
-                role,
+                roleInput,
             };
+
+            const token = await this.business.createUser(this.database, input)
         } catch (error: any) {
             res.send(error.message);
         }
@@ -65,7 +64,7 @@ export default class UsersController {
     update = async (req: Request, res: Response) => {
         try {
             const id: string = req.params.id as string;
-            const token: string = req.headers.authorization as string
+            const token: string = req.headers.authorization as string;
             const { name, email, password, role } = req.body;
             const input: UsersUpdateInputDTO = {
                 id,
@@ -73,7 +72,7 @@ export default class UsersController {
                 email,
                 password,
                 role,
-                token
+                token,
             };
         } catch (error: any) {
             res.send(error.message);

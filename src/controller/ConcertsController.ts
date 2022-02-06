@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import Authenticator from '../services/Authenticator';
-import HashManager from '../services/HashManager';
+
 import ConcertsDatabase from '../database/ConcertsDatabase';
 import {
     ConcertsInputDTO,
@@ -12,12 +11,10 @@ import {
 } from '../entities/Concerts';
 
 export default class ConcertsController {
-    private authenticator: Authenticator;
-    private hashManager: HashManager;
+    
     private database: ConcertsDatabase;
     constructor() {
-        this.authenticator = new Authenticator();
-        this.hashManager = new HashManager();
+        
         this.database = new ConcertsDatabase();
     }
 

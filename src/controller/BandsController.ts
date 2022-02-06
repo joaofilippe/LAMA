@@ -1,6 +1,4 @@
 import { Request, Response } from 'express';
-import Authenticator from '../services/Authenticator';
-import HashManager from '../services/HashManager';
 import BandsDatabase from '../database/BandsDatabase';
 import {
     BandsCreateInputDTO,
@@ -12,12 +10,8 @@ import {
 } from '../entities/Bands';
 
 export default class BandsController {
-    authenticator: Authenticator;
-    hashManager: HashManager;
     database: BandsDatabase;
     constructor() {
-        this.authenticator = new Authenticator();
-        this.hashManager = new HashManager();
         this.database = new BandsDatabase();
     }
 

@@ -2,8 +2,8 @@ import BaseDatabase from '../BaseDatabase';
 
 const argv: string = process.argv[2];
 
-class UserMigrations extends BaseDatabase {
-    tableName: string = 'concerts';
+export default class UsersMigrations extends BaseDatabase {
+    tableName: string = 'users';
 
     destroy = async () => {
         await this.connection.destroy();
@@ -74,23 +74,23 @@ class UserMigrations extends BaseDatabase {
 }
 
 const migrations = async (argv: string) => {
-    const userMigrations = new UserMigrations();
+    const usersMigrations = new UsersMigrations();
     if (argv === 'check') {
-        const check = await userMigrations.check();
+        const check = await usersMigrations.check();
         if (check) {
             console.log(
-                `A tabela "${userMigrations.tableName}" já existe em seu banco de dados.`
+                `A tabela "${usersMigrations.tableName}" já existe em seu banco de dados.`
             );
         } else {
             console.log(
-                `A tabela "${userMigrations.tableName}" não existe em seu banco de dados.`
+                `A tabela "${usersMigrations.tableName}" não existe em seu banco de dados.`
             );
         }
-        userMigrations.destroy();
+        usersMigrations.destroy();
     } else if (argv === 'create') {
-        await userMigrations.create();
+        await usersMigrations.create();
     } else if (argv === 'drop') {
-        await userMigrations.drop();
+        await usersMigrations.drop();
     } else {
         console.log('Parâmetros inválidos');
     }
