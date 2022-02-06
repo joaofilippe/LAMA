@@ -2,7 +2,7 @@ import BaseDatabase from '../BaseDatabase';
 
 const argv: string = process.argv[2];
 
-class BandsMigrations extends BaseDatabase {
+export default class BandsMigrations extends BaseDatabase {
     tableName: string = 'bands';
 
     destroy = async () => {
