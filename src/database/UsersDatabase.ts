@@ -21,7 +21,8 @@ export default class UsersDatabase extends BaseDatabase {
 
             const userModel = usersModel.getUsersModel();
 
-            this.connection(this.tableName).insert(userModel);
+
+            await this.connection(this.tableName).insert(userModel);
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
