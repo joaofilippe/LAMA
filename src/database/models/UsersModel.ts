@@ -34,6 +34,8 @@ export default class UsersModel {
             password,
             role,
         };
+
+        return userModel
     }
 
     public static toUserModel(input?: any) {

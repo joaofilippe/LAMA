@@ -12,13 +12,15 @@ import {
 
 export default class UsersController {
     database: UsersDatabase;
-    business: UsersBusiness;    constructor() {
+    business: UsersBusiness;
+    constructor() {
         this.database = new UsersDatabase();
-        this.business = new UsersBusiness()
+        this.business = new UsersBusiness();
     }
 
     signup = async (req: Request, res: Response) => {
         try {
+            let message = 'Sucesso';
             const { name, email, password, roleInput } = req.body;
             const input: UsersInputDTO = {
                 name,
@@ -27,7 +29,14 @@ export default class UsersController {
                 roleInput,
             };
 
-            const token = await this.business.createUser(this.database, input)
+
+            const token = await this.business.createUser(
+                this.database,
+                input
+            );
+
+            res.status(201);
+            res.send({ message, token });
         } catch (error: any) {
             res.send(error.message);
         }

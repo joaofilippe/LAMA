@@ -24,7 +24,6 @@ export default class UsersBusiness {
                 id,
                 role,
             });
-
             const hashedPassword: string =
                 await this.hashManager.hash(password);
 
@@ -38,7 +37,10 @@ export default class UsersBusiness {
 
             const userInput = user.getUsers();
 
+
             await database.create(userInput);
+
+            return token;
         } catch (error: any) {
             throw new Error(error.message);
         }
